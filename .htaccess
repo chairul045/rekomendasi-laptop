@@ -1,0 +1,14 @@
+﻿<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # 1. Deny access to hidden dotfiles (.env, .git, etc.)
+    RewriteRule ^(\..*)$ - [F,L]
+
+    # 2. Deny access to sensitive backend directories and files
+    RewriteRule ^(app|bootstrap|config|database|storage|tests|vendor)(/|$) - [F,L]
+    RewriteRule ^(artisan|composer\.(json|lock)|package(-lock)?\.json|phpunit\.xml|vite\.config\.js)$ - [F,L]
+
+    # 3. Rewrite all remaining requests to public/
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
